@@ -1,0 +1,291 @@
+openapi: 3.0.0
+info:
+  title: E-Commerce API
+  version: 1.0.0
+  description: API for an E-Commerce Application
+
+servers:
+  - url: http://localhost:3000 # Replace with your API server URL
+
+paths:
+  /products:
+    get:
+      summary: Get a list of products
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+    post:
+      summary: Create a new product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        "201":
+          description: Product created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+
+  /products/{productId}:
+    get:
+      summary: Get a product by ID
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+
+  /categories:
+    get:
+      summary: Get a list of product categories
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+    post:
+      summary: Create a new product category
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Category"
+      responses:
+        "201":
+          description: Category created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+
+  /categories/{categoryId}:
+    get:
+      summary: Get a category by ID
+      parameters:
+        - in: path
+          name: categoryId
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+
+  /users:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  /orders:
+    get:
+      summary: Get a list of orders
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+    post:
+      summary: Create a new order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+      responses:
+        "201":
+          description: Order created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+
+  /shopping-carts:
+    get:
+      summary: Get a list of shopping carts
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ShoppingCart"
+    post:
+      summary: Create a new shopping cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShoppingCart"
+      responses:
+        "201":
+          description: Shopping cart created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShoppingCart"
+
+  /sales:
+    get:
+      summary: Get a list of sales
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Sale"
+    post:
+      summary: Create a new sale
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Sale"
+      responses:
+        "201":
+          description: Sale created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Sale"
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        stock_quantity:
+          type: integer
+        category_id:
+          type: integer
+      required:
+        - name
+        - price
+        - stock_quantity
+        - category_id
+
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - name
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - email
+        - password
+
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+        order_number:
+          type: string
+        user_id:
+          type: integer
+        total_amount:
+          type: number
+        order_date:
+          type: string
+      required:
+        - order_number
+        - user_id
+        - total_amount
+        - order_date
+
+    ShoppingCart:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+      required:
+        - user_id
+
+    Sale:
+      type: object
+      properties:
+        id:
+          type: integer
+        order_id:
+          type: integer
+        sale_date:
+          type: string
+      required:
+        - order_id
+        - sale_date
